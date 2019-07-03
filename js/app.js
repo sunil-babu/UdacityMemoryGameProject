@@ -23,8 +23,12 @@ const restart = document.querySelector('.restart').firstElementChild;
 // declare variables for star icons
 const stars = document.querySelectorAll(".fa-star");
 
+//Set initial values to the open cards an move counter
 let openCards = [];
 let movesCounter = 0;
+
+//variable for overlay
+const overlay = document.getElementById("overlay");
 
 //On Submtting the name, set the value in welcome message
 function submitName() {
@@ -39,6 +43,7 @@ function submitName() {
  *   - shuffle the list of cards using the provided "shuffle" method below
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
+ *   - reset moves, stars and overlay
  */
 function startGame(){
   //Shuffle cards
@@ -46,6 +51,7 @@ function startGame(){
   deck.innerHTML = "";
   movesCounter = 0;
   moves.innerHTML = movesCounter;
+  overlay.style.display = "none";
   resetStars();
   for(let card of cardList){
       //Clear deck
@@ -74,17 +80,6 @@ function shuffle(array) {
 
 
 window.onload = startGame();
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
 
  /*
   * Event Listener function to listen to click on Deck
@@ -124,6 +119,10 @@ window.onload = startGame();
    if(openCards.length === 2){
      if(openCards[0].children[0].classList.value === openCards[1].children[0].classList.value){
                cardsMatched();
+               let matchedCards = document.querySelectorAll(".match").length;
+               if(matchedCards === 16){
+                 gameFinsihed();
+               }
            } else {
                cardsUnmatched();
            }
@@ -151,7 +150,7 @@ window.onload = startGame();
      openCards[1].classList.remove("show", "open","unmatched","disableClick");
      openCards = [];
      deck.classList.remove("disableClick");
-   },1100)
+   },1000)
  }
 
  /*
@@ -161,7 +160,7 @@ function moveCounter(){
   movesCounter++;
   moves.innerHTML = movesCounter;
 
-  if(movesCounter > 20){
+  if(movesCounter > 24){
     for(const [index,star] of stars.entries()){
       if(index > 1){
         star.style.color = "transparent";
@@ -169,7 +168,7 @@ function moveCounter(){
     }
   }
 
-  if(movesCounter > 26){
+  if(movesCounter > 30){
     for(const [index,star] of stars.entries()){
       if(index > 0){
         star.style.color = "transparent";
@@ -179,11 +178,31 @@ function moveCounter(){
 }
 
 /*
- * Display card on click
- *   @param {event} event - The event when the user clicks
+ * Reset Start to original 3 stars
  */
 function resetStars(){
    for(const star of stars){
      star.style.color = "#000";
    }
+}
+
+/*
+ * Display Congratulations, if the user has succesfully finished the game
+ */
+function gameFinsihed(){
+  var rating = document.querySelector(".stars").innerHTML;
+
+   //showing move, rating, time on modal
+   document.getElementById("userName").innerHTML = name.value;
+   document.getElementById("moveCount").innerHTML = moves.textContent;
+   document.getElementById("rating").innerHTML = rating;
+   overlay.style.display = "block";
+}
+
+/*
+ * Close function to close the popup
+ */
+function playAgain() {
+  overlay.style.display = "none";
+  startGame();
 }

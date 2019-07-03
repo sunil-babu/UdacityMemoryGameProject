@@ -26,11 +26,14 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    padding: 50px;
 }
 
-h1 {
+h2,
+h3{
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
+    text-align: center;
 }
 
 /*
@@ -43,6 +46,10 @@ h1 {
 
 #welome{
     padding-top: 50px;
+}
+
+.nameButton{
+  padding: 10px;
 }
 
 /*
@@ -91,11 +98,14 @@ h1 {
     cursor: default;
     background: #080;
     font-size: 33px;
+    animation: shadow-pulse 1s 1;
 }
 
 .deck .card.unmatched {
   border: 0 0 0 10px #f00;
 	background: #f00;
+  animation : transform;
+  animation-duration: .75s;
 }
 
 .disableClick{
@@ -141,4 +151,88 @@ h1 {
     float: right;
     display: inline-block;
     width: 30%;
+}
+
+/*
+ *Styles for oveerlay
+ */
+ #overlay {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #a9a9a9;
+  opacity: 0.9;
+  z-index: 2;
+  cursor: pointer;
+}
+
+#text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 50px;
+  color: #000;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+
+#rating li {
+	display: inline-block;
+}
+
+#play-again {
+  background-color: #000;
+	display: block;
+	margin: 0 auto;
+	width: 50%;
+	color: #fff;
+	border-radius: 5px;
+}
+
+/*
+ * Styles for animations
+ */
+ @keyframes shadow-pulse{
+  0% {
+    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 35px rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes transform {
+  from {
+      transform: scale3d(1, 1, 1);
+    }
+
+    30% {
+      transform: scale3d(1.25, 0.75, 1);
+    }
+
+    40% {
+      transform: scale3d(0.75, 1.25, 1);
+    }
+
+    50% {
+      transform: scale3d(1.15, 0.85, 1);
+    }
+
+    65% {
+      transform: scale3d(.95, 1.05, 1);
+    }
+
+    75% {
+      transform: scale3d(1.05, .95, 1);
+    }
+
+    to {
+      transform: scale3d(1, 1, 1);
+    }
+  }
 }
