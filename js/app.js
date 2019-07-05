@@ -50,6 +50,7 @@ function startGame(){
   cardList = shuffle(cardList);
   deck.innerHTML = "";
   movesCounter = 0;
+  openCards = [];
   moves.innerHTML = movesCounter;
   overlay.style.display = "none";
   resetStars();
